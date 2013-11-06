@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <sectionGroup name="sprecheGroup">
+      <section
+        name="spreche"
+        type="Sprache.Core.Support.SprecheConfiguration"
+        allowLocation="true"
+        allowDefinition="Everywhere"
+      />
+    </sectionGroup>
+  </configSections>
+  <spreche LanguageLookupSource="lookup.xml" />
+</configuration>

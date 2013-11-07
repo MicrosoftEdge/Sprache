@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Sprache.Core.Models;
+using Sprache.Core.Services;
 
 namespace Sprache.Core.Support
 {
@@ -16,6 +17,37 @@ namespace Sprache.Core.Support
   public class LanguageCodeLookup
   {
     /// <summary>
+    /// Read-only property for accesing LanguageLookup information
+    /// </summary>
+    public LanguageLookup LanguageLookup
+    {
+      get
+      {
+        var cache = new CachingService();
+
+        var languageLookup = cache.GetCachedItem("languageLookup") as LanguageLookup;
+
+        if (languageLookup != null) return languageLookup;
+
+        // Load up the languages into the cache
+        languageLookup = LoadLanguageList();
+
+        var languageLookupPath = GetLanguageFilePath();
+
+        languageLookupPath = Path.GetFullPath(languageLookupPath);
+
+        var listOfFiles = new List<String>
+        {
+          languageLookupPath
+        };
+
+        cache.AddToCache("languageLookup", languageLookup, CachePriority.NotRemovable, listOfFiles);
+
+        return languageLookup;
+      }
+    }
+
+    /// <summary>
     /// Loads in the language lookup that is specified in the configuration, then looks
     /// up the code based on the configuration
     /// </summary>
@@ -24,22 +56,17 @@ namespace Sprache.Core.Support
     public String LookupLanguage(String aLanguageCode)
     {
       var languageCode = aLanguageCode.ToLower();
-      // Get the location of the language preference file
-      var sprecheConfig = (SpracheConfiguration)ConfigurationManager.GetSection("sprache");
 
-      var languageLookupFile = sprecheConfig.LanguageLookupSource;
-
-      // Load in the document from some source, specified by the configuration manager
-      var languageLookup = JsonConvert.DeserializeObject<LanguageLookup>(File.ReadAllText(languageLookupFile));
-
-      return CheckLookupMatch(languageLookup, languageCode);
+      return CheckLookupMatch(LanguageLookup, languageCode);
     }
 
     private static String CheckLookupMatch(LanguageLookup languageLookup, String languageCode)
     {
-      if(languageLookup.RootLanguages.Any(ll => ll.MappedLanguages.Any(ml => ml.LanguageCode.Equals(languageCode))))
+      if (languageLookup.RootLanguages.Any(ll => ll.MappedLanguages.Any(ml => ml.LanguageCode.Equals(languageCode))))
       {
-        return languageLookup.RootLanguages.First(ll => ll.MappedLanguages.Any(ml => ml.LanguageCode.Equals(languageCode))).LanguageCode;
+        return
+          languageLookup.RootLanguages.First(ll => ll.MappedLanguages.Any(ml => ml.LanguageCode.Equals(languageCode)))
+            .LanguageCode;
       }
 
       var rootLanguages =
@@ -59,5 +86,20 @@ namespace Sprache.Core.Support
       return "en-us";
     }
 
+    private static LanguageLookup LoadLanguageList()
+    {
+      var languageLookupFile = GetLanguageFilePath();
+
+      // Load in the document from some source, specified by the configuration manager
+      return JsonConvert.DeserializeObject<LanguageLookup>(File.ReadAllText(languageLookupFile));
+    }
+
+    private static String GetLanguageFilePath()
+    {
+      // Get the location of the language preference file
+      var sprecheConfig = (SpracheConfiguration) ConfigurationManager.GetSection("sprache");
+
+      return sprecheConfig.LanguageLookupSource;
+    }
   }
 }

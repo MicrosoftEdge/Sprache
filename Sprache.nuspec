@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>Sprache</id>
+    <id>Sprache.MVC</id>
     <version>0.0.0</version>
     <authors>Bam Interactive</authors>
     <owners>Bam Interactive</owners>

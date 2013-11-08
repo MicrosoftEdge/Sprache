@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Sprache</id>
+    <version>0.0.0</version>
+    <authors>Bam Interactive</authors>
+    <owners>Bam Interactive</owners>
+    <projectUrl>https://github.com/baminteractive/Sprache.git</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Parses Language headers and uses a configuration file to determine code to use.</description>
+    <releaseNotes>First Release</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>globalization internationalization</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="5.0.8" />
+    </dependencies>
+  </metadata>
+</package>

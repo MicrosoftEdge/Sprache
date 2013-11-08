@@ -10,7 +10,7 @@ namespace Sprache.Tests.Support
     [TestCase("en", "en-us")]
     [TestCase("DE-CH", "de-de")]
     [TestCase("de","de-de")]
-    [TestCase("ar-sa","en-us")]
+    [TestCase("ar-sa","")]
     public void ShouldReturnProperLanguageCode(String original, String expected)
     {
       var lookup = new LanguageCodeLookup();

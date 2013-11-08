@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Sprache.Core.Models
@@ -9,6 +10,7 @@ namespace Sprache.Core.Models
     public CultureInfo CultureInfo { get; set; }
     public double Preference { get; set; }
 
+    [ExcludeFromCodeCoverage]
     public Language() {}
 
     public Language(String languageCode, double preference)

@@ -65,7 +65,7 @@ namespace Sprache.Core.Support
       if (languageLookup.RootLanguages.Any(ll => ll.MappedLanguages.Any(ml => ml.LanguageCode.Equals(languageCode))))
       {
         return
-          languageLookup.RootLanguages.First(ll => ll.MappedLanguages.Any(ml => ml.LanguageCode.Equals(languageCode)))
+          languageLookup.RootLanguages.Single(ll => ll.MappedLanguages.Any(ml => ml.LanguageCode.Equals(languageCode)))
             .LanguageCode;
       }
 
@@ -83,7 +83,7 @@ namespace Sprache.Core.Support
           .LanguageCode;
       }
 
-      return "en-us";
+      return String.Empty;
     }
 
     private static LanguageLookup LoadLanguageList()

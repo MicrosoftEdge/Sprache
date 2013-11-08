@@ -46,8 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\CoreTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CachingServiceTests.cs" />
     <Compile Include="Support\LanguageCodeLookupTests.cs" />
+    <Compile Include="Support\LanguageHeaderParserTests.cs" />
     <Compile Include="Support\SpracheConfigurationTests.cs" />
   </ItemGroup>
   <ItemGroup>

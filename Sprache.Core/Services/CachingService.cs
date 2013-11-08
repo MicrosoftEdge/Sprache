@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Caching;
 
 namespace Sprache.Core.Services
@@ -46,7 +47,10 @@ namespace Sprache.Core.Services
         RemovedCallback = _callback
       };
 
-      _policy.ChangeMonitors.Add(new HostFileChangeMonitor(filePath));
+      if (filePath != null && filePath.Any())
+      {
+        _policy.ChangeMonitors.Add(new HostFileChangeMonitor(filePath));
+      }
 
       // Add inside cache 
       Cache.Set(cacheKeyName, cacheItem, _policy);

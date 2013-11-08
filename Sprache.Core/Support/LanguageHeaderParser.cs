@@ -13,39 +13,35 @@ namespace Sprache.Core.Support
   {
     public List<Language> Parse(String languageHeader)
     {
-      Debug.WriteLine(String.Format("Current Culture: {0}", Thread.CurrentThread.CurrentCulture.Name));
-      Debug.WriteLine(String.Format("Request Accepts Language: {0}", languageHeader));
+      if (String.IsNullOrEmpty(languageHeader)) return null;
 
-      if (!String.IsNullOrEmpty(languageHeader))
+      var languageArray = languageHeader.Split(',').ToList();
+      languageArray = languageArray.Select(la => la.ToLowerInvariant()).ToList();
+      var languageRegex = new Regex(@"([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?");
+
+      var languagePreferences = new List<Language>();
+
+      foreach (var language in languageArray)
       {
-        var languageArray = languageHeader.Split(',').ToList();
-        languageArray = languageArray.Select(la => la.ToLowerInvariant()).ToList();
-        var languageRegex = new Regex(@"([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?");
+        if(!languageRegex.Match(language).Success) continue;
 
-        var languagePreferences = new List<Language>();
+        var languageMatches = languageRegex.Match(language).Groups;
 
-        foreach (var language in languageArray)
+        try
         {
-          var languageMatches = languageRegex.Match(language).Groups;
-          if (String.IsNullOrEmpty(languageMatches[1].Value)) continue;
-
-          var languagePreference = !String.IsNullOrEmpty(languageMatches[4].Value) ? new Language(languageMatches[1].Value, languageMatches[4].Value) : new Language(languageMatches[1].Value, 1.0d);
-
-          if (languagePreference.LanguageCode.Equals("de", StringComparison.CurrentCultureIgnoreCase))
-          {
-            languagePreference.LanguageCode = "de-de";
-          }
-
-          languagePreferences.Add(languagePreference);
+          CultureInfo.GetCultureInfo(languageMatches[1].Value);
+        }
+        catch (Exception)
+        {
+          return null;
         }
 
-        Debug.WriteLine(String.Format("Found language preferences: {0}", String.Join(", ", languagePreferences.Select(lp => String.Format("{0} : {1}", lp.LanguageCode, lp.Preference)))));
+        var languagePreference = !String.IsNullOrEmpty(languageMatches[4].Value) ? new Language(languageMatches[1].Value.ToLower(), languageMatches[4].Value) : new Language(languageMatches[1].Value, 1.0d);
 
-        Thread.CurrentThread.CurrentCulture = new CultureInfo(languagePreferences[0].LanguageCode);
-        Thread.CurrentThread.CurrentUICulture = new CultureInfo(languagePreferences[0].LanguageCode);
+        languagePreferences.Add(languagePreference);
       }
 
-      return null;
+      return languagePreferences.Any() ? languagePreferences.OrderByDescending(lp => lp.Preference).ToList() : null;
     } 
   }
 }

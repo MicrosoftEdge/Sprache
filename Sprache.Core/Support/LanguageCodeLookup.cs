@@ -32,12 +32,7 @@ namespace Sprache.Core.Support
         // Load up the languages into the cache
         languageLookup = LoadLanguageList();
 
-        var listOfFiles = new List<String>
-        {
-          Path.GetFullPath(GetLanguageFilePath())
-        };
-
-        cache.AddToCache("languageLookup", languageLookup, CachePriority.NotRemovable, listOfFiles);
+        cache.AddToCache("languageLookup", languageLookup, CachePriority.NotRemovable, null);
 
         return languageLookup;
       }

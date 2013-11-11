@@ -32,13 +32,9 @@ namespace Sprache.Core.Support
         // Load up the languages into the cache
         languageLookup = LoadLanguageList();
 
-        var languageLookupPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,GetLanguageFilePath());
-
-        languageLookupPath = Path.GetFullPath(languageLookupPath);
-
         var listOfFiles = new List<String>
         {
-          languageLookupPath
+          Path.GetFullPath(GetLanguageFilePath())
         };
 
         cache.AddToCache("languageLookup", languageLookup, CachePriority.NotRemovable, listOfFiles);
@@ -99,7 +95,7 @@ namespace Sprache.Core.Support
       // Get the location of the language preference file
       var sprecheConfig = (SpracheConfiguration) ConfigurationManager.GetSection("sprache");
 
-      return sprecheConfig.LanguageLookupSource;
+      return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, sprecheConfig.LanguageLookupSource);
     }
   }
 }

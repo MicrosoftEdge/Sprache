@@ -8,5 +8,5 @@
         allowDefinition="Everywhere"
       />
   </configSections>
-  <spreche languageLookupSource="lookup.json" />
+  <sprache languageLookupSource="lookup.json" />
 </configuration>

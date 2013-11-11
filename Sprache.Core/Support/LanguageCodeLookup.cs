@@ -32,7 +32,7 @@ namespace Sprache.Core.Support
         // Load up the languages into the cache
         languageLookup = LoadLanguageList();
 
-        var languageLookupPath = GetLanguageFilePath();
+        var languageLookupPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,GetLanguageFilePath());
 
         languageLookupPath = Path.GetFullPath(languageLookupPath);
 

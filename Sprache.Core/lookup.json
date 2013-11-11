@@ -1,0 +1,29 @@
+{
+  "RootLanguages": [
+    {
+      "LanguageCode": "en-us",
+      "MappedLanguages": [
+        {
+          "LanguageCode": "en"
+        },
+        {
+          "LanguageCode": "en-gb"
+        },
+        {
+          "LanguageCode": "en-ca"
+        }
+      ]
+    },
+    {
+      "LanguageCode": "de-de",
+      "MappedLanguages": [
+        {
+          "LanguageCode": "de"
+        },
+        {
+          "LanguageCode": "de-*"
+        }
+      ]
+    }
+  ]
+}

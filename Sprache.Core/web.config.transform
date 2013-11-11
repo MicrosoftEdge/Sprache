@@ -10,5 +10,5 @@
       />
     </sectionGroup>
   </configSections>
-  <spreche LanguageLookupSource="lookup.xml" />
+  <spreche LanguageLookupSource="lookup.json" />
 </configuration>

@@ -43,7 +43,7 @@ namespace Sprache.Core.Services
       _policy = new CacheItemPolicy
       {
         Priority = (cacheItemPriority == CachePriority.Default) ? CacheItemPriority.Default : CacheItemPriority.NotRemovable,
-        AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(10.00),
+        AbsoluteExpiration = DateTimeOffset.Now.AddYears(1),
         RemovedCallback = _callback
       };
 

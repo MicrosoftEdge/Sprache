@@ -8,7 +8,7 @@
     <projectUrl>https://github.com/baminteractive/Sprache.git</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Parses Language headers and uses a configuration file to determine code to use.</description>
-    <releaseNotes>First Release</releaseNotes>
+    <releaseNotes>Adding web config transform and exmaple lookup file</releaseNotes>
     <copyright>Copyright 2013</copyright>
     <tags>globalization internationalization</tags>
     <dependencies>

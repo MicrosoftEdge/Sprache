@@ -1,14 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <configuration>
   <configSections>
-    <sectionGroup name="sprecheGroup">
-      <section
-        name="spreche"
-        type="Sprache.Core.Support.SprecheConfiguration"
+    <section
+        name="sprache"
+        type="Sprache.Core.Support.SpracheConfiguration,Sprache.Core"
         allowLocation="true"
         allowDefinition="Everywhere"
       />
-    </sectionGroup>
   </configSections>
-  <spreche LanguageLookupSource="lookup.json" />
+  <spreche languageLookupSource="lookup.json" />
 </configuration>

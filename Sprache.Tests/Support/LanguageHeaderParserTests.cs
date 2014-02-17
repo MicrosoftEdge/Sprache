@@ -45,7 +45,6 @@ namespace Sprache.Tests.Support
       Assert.That(result,Is.Null);
     }
 
-    [TestCase("fooBar768889,en;q=0.8,de;q=0.6,de-DE;q=0.4")]
     [TestCase("123")]
     [TestCase(";q=0.84")]
     public void ShouldReturnNullForMalformedHeader(string header)

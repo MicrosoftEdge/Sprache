@@ -1,23 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
 using Sprache.Core.Models;
 
 namespace Sprache.Core.Support
 {
   public class LanguageHeaderParser
   {
-    public List<Language> Parse(String languageHeader)
+
+      /// <summary>
+      /// Determines if a culture is supported by System.Globalization
+      /// </summary>
+      /// <param name="cultureCode"></param>
+      /// <returns></returns>
+      private bool CultureExists(string cultureCode)
+      {
+          try
+          {
+              CultureInfo.GetCultureInfo(cultureCode);
+          }
+          catch (Exception)
+          {
+              return false;
+          }
+
+          return true;
+      }
+
+      /// <summary>
+      /// Parses a language header and returns supported languages
+      /// </summary>
+      /// <param name="languageHeader"></param>
+      /// <returns></returns>
+      public List<Language> Parse(String languageHeader)
     {
       if (String.IsNullOrEmpty(languageHeader)) return null;
 
       var languageArray = languageHeader.Split(',').ToList();
       languageArray = languageArray.Select(la => la.ToLowerInvariant()).ToList();
-      var languageRegex = new Regex(@"([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?");
+      var languageRegex = new Regex(@"([a-z]{1,8}(-[a-z]{1,8})?)[,geo]?\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?");
 
       var languagePreferences = new List<Language>();
 
@@ -27,18 +50,13 @@ namespace Sprache.Core.Support
 
         var languageMatches = languageRegex.Match(language).Groups;
 
-        try
-        {
-          CultureInfo.GetCultureInfo(languageMatches[1].Value);
-        }
-        catch (Exception)
-        {
-          return null;
-        }
+          if (CultureExists(languageMatches[1].Value))
+          {
+              var languagePreference = !String.IsNullOrEmpty(languageMatches[4].Value) ? new Language(languageMatches[1].Value.ToLower(), languageMatches[4].Value) : new Language(languageMatches[1].Value, 1.0d);
 
-        var languagePreference = !String.IsNullOrEmpty(languageMatches[4].Value) ? new Language(languageMatches[1].Value.ToLower(), languageMatches[4].Value) : new Language(languageMatches[1].Value, 1.0d);
+              languagePreferences.Add(languagePreference);          
+          }
 
-        languagePreferences.Add(languagePreference);
       }
 
       return languagePreferences.Any() ? languagePreferences.OrderByDescending(lp => lp.Preference).ToList() : null;

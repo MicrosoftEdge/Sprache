@@ -9,6 +9,7 @@ namespace Sprache.Tests.Core
     [TestCase("de;q=0.6,de-DE;q=0.4", "de-de")]
     [TestCase("de-ch;q=0.6,de-DE;q=0.4", "de-de")]
     [TestCase("ar,ar-sa;q=0.8","en-us")]
+    [TestCase("", "en-us")]
     public void ShouldReturnCorrectLanguageCode(string header, string expected)
     {
       var core = new Sprache.Core.Core();

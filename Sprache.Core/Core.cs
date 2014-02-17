@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Sprache.Core.Models;
 using Sprache.Core.Support;
 
@@ -13,6 +12,8 @@ namespace Sprache.Core
   {
     private static readonly LanguageHeaderParser HeaderParser = new LanguageHeaderParser();
     private static readonly LanguageCodeLookup CodeLookup = new LanguageCodeLookup();
+    private const string DefaultLanguage = "en-us";
+
     /// <summary>
     /// Pass in a language header, get a language code that complies with the language rules you specified 
     /// </summary>
@@ -20,21 +21,26 @@ namespace Sprache.Core
     /// <returns></returns>
     public String GetLanguageCode(String languageHeader)
     {
-      var languages = HeaderParser.Parse(languageHeader);
-
-      return ProcessLanguages(languages);
+        if (!String.IsNullOrEmpty(languageHeader))
+        {
+            var languages = HeaderParser.Parse(languageHeader);
+            return ProcessLanguages(languages);
+        }
+        else
+            return DefaultLanguage;
     }
 
     private static String ProcessLanguages(IEnumerable<Language> languages)
     {
-      foreach (var language in languages)
-      {
-        var lookup = CodeLookup.LookupLanguage(language.LanguageCode);
 
-        if (!String.IsNullOrEmpty(lookup)) return lookup;
-      }
+        foreach (var language in languages)
+        {
+            var lookup = CodeLookup.LookupLanguage(language.LanguageCode);
 
-      return "en-us";
+            if (!String.IsNullOrEmpty(lookup)) return lookup;
+        }
+
+        return DefaultLanguage;
     }
   }
 }

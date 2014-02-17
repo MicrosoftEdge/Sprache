@@ -24,6 +24,14 @@
           "LanguageCode": "de-*"
         }
       ]
+    },
+	{
+      "LanguageCode": "en-au",
+      "MappedLanguages": [
+        {
+          "LanguageCode": "en-au"
+        }
+      ]
     }
   ]
 }

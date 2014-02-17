@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sprache.Core.Models;
 using Sprache.Core.Support;
 
@@ -21,13 +22,9 @@ namespace Sprache.Core
     /// <returns></returns>
     public String GetLanguageCode(String languageHeader)
     {
-        if (!String.IsNullOrEmpty(languageHeader))
-        {
-            var languages = HeaderParser.Parse(languageHeader);
-            return ProcessLanguages(languages);
-        }
-        else
-            return DefaultLanguage;
+        if (String.IsNullOrEmpty(languageHeader)) return DefaultLanguage;
+        var languages = HeaderParser.Parse(languageHeader);
+        return (languages != null && languages.Any()) ? ProcessLanguages(languages) : DefaultLanguage;
     }
 
     private static String ProcessLanguages(IEnumerable<Language> languages)
